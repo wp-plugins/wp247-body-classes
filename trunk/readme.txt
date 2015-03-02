@@ -1,0 +1,99 @@
+=== WP247 Body Classes ===
+Contributors: wescleveland
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU
+Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky
+Requires at least: 4.0
+Tested up to: 4.1.1
+Stable tag: 1.1
+License: GPLv2
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions.
+
+== Description ==
+
+Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions:
+
+ - wp_is_mobile()
+ - is_home()
+ - is_front_page()
+ - is_blog()
+ - is_admin()
+ - is_admin_bar_showing()
+ - is_404()
+ - is_super_admin()
+ - is_user_logged_in()
+ - is_search()
+ - is_archive()
+ - is_author()
+ - is_category()
+ - is_tag()
+ - is_tax()
+ - is_date()
+ - is_year()
+ - is_month()
+ - is_day()
+ - is_time()
+ - is_single()
+ - is_sticky()
+ - $post->post_type
+ - $post->name
+ - $post->ID
+
+This plugin adds classes to the html body tag indicating:
+
+ - whether or not the requesting device is a mobile device (.is-mobile or .is-not-mobile)
+
+ - the type of post being viewed (.is-? where ? is the post type (page, post, whetever special post types are defined) ).
+     E.g. .is-page or .is-post
+
+ - the slug of the post being viewed (.is-?-! where ? is the post type and ! is the post slug).
+     E.g. a post with slug "hello-world' would have class .is-post-hello-world
+
+ - the ID of the post being viewed (.is-?-# where ? is the post type and # is the post ID).
+     E.g. a post with ID "1" would have class .is-page-1
+
+ - whether or not the requested page shows archived results (.is-archive or .is-not-archive)
+
+   If the page being displayed is an archive
+
+    - the type of archive being viewed (.is-? where ? represents the type of archive (author, category, date, tag) )
+	    E.g. .is-author
+
+    - the slug of the archive being viewed (.is-?-! where ? is the archive type and ! is the archive slug)
+	    E.g. a category with slug "uncategorized' would have class .is-category-uncategorized
+
+    - the ID of the archive being viewed (.is-?-# where ? is the archive type and # is the archive ID)
+        E.g. a category with ID "1" would have class .is-category-1
+
+Use these classes in your styling to provide a better browsing experience for your viewers.
+
+= Example =
+
+Suppose you have a large h1 top margin that you want to eliminate on mobile devices to avoid a lot of white space. After activating the is-body-class plugin and indicating that thwe .is-mobile class is desired, all you need to do is add this line to your css:
+
+body.is-mobile h1 {
+	margin-top: 0;
+}
+
+== Installation ==
+
+In the WordPress backend, search for the plugin 'wp247 body classes'. Click the "Install" button and then click on "Activate". That's it. You're now ready to customize your viewer's browsing experience.
+
+== Screenshots ==
+
+1. Environment Classes setting selection
+2. User Classes setting selection
+3. Archive Classes setting selection
+4. Post Classes setting selection
+5. Custom Classes setting
+6. Custom CSS setting
+
+== Changelog ==
+
+= 1.1 =
+Clean up styling
+Use wp247-Settings-API for options management
+
+= 1.0 =
+First release on 2015-February-28
