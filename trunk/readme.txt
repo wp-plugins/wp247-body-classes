@@ -74,7 +74,7 @@ Create your own Custom Body Classes by adding your PHP code in the "Custom Body 
 
 Here's an example. Not sure why we would want to do it, but suppose we want to do some custom styling when the page is being displayed to someone that can manage WordPress options. We might enter something like:
 
-`if ( current_user_can( 'manage_options' ) ) $classes[] = 'user-can-manage-options';`
+`if (current_user_can('manage_options')) $classes[] = 'user-can-manage-options';`
 
 Then we can use the **body.user-can-manage-options** qualifier in our CSS styling.
 
