@@ -70,7 +70,7 @@ Use these classes in your styling to provide a better browsing experience for yo
 
 = Example =
 
-Suppose you have a large h1 top margin that you want to eliminate on mobile devices to avoid a lot of white space. After activating the is-body-class plugin and indicating that thwe .is-mobile class is desired, all you need to do is add this line to your css:
+Suppose you have a large h1 top margin that you want to eliminate on mobile devices to avoid a lot of white space. After activating the wp247-body-classes plugin and indicating that the .is-mobile class is desired, all you need to do is add this line to your css:
 
 body.is-mobile h1 {
 	margin-top: 0;
