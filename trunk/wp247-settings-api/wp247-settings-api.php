@@ -357,7 +357,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			$this->set_infobar_width( $this->get_infobar_width() );
 
 			if ( isset( $this->settings_admin_menu[ 'page_title' ] ) and ! empty( $this->settings_admin_menu[ 'page_title' ] ) )
-				echo '<h1>' . $this->settings_admin_menu[ 'page_title' ] . '</h1>';
+				echo '<h2>' . $this->settings_admin_menu[ 'page_title' ] . '</h2>';
 
 			echo '<div class="wrap">';
 
