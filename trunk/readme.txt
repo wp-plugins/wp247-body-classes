@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions.
+Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions. You can also create your own custom Body Classes.
 
 == Description ==
 
@@ -68,6 +68,16 @@ This plugin adds classes to the html body tag indicating:
 
 Use these classes in your styling to provide a better browsing experience for your viewers.
 
+= Custom Body Classes =
+
+You can create your own Custom Body Classes by add your PHP code in the "Custom Body Classes" section.
+
+Here's an example. Not sure why we would want to do it, but suppose we want to do some custom styling when the page is being displayed to someone that can manage WordPress options. We might enter something like:
+
+`if ( current_user_can( 'manage_options' ) ) $classes[] = 'user-can-manage-options';`
+
+Then we can use the *body.user-can-manage-options* qualifier in our CSS styling.
+
 = Example =
 
 Suppose you have a large h1 top margin that you want to eliminate on mobile devices to avoid a lot of white space. After activating the wp247-body-classes plugin and indicating that the .is-mobile class is desired, all you need to do is add this line to your css:
@@ -92,4 +102,4 @@ In the WordPress backend, search for the plugin 'wp247 body classes'. Click the 
 == Changelog ==
 
 = 1.0 =
-First release on 2015-February-28
+First release on 2015-March-1
