@@ -70,7 +70,7 @@ Use these classes in your styling to provide a better browsing experience for yo
 
 = Custom Body Classes =
 
-You can create your own Custom Body Classes by add your PHP code in the "Custom Body Classes" section.
+Create your own Custom Body Classes by add your PHP code in the "Custom Body Classes" section.
 
 Here's an example. Not sure why we would want to do it, but suppose we want to do some custom styling when the page is being displayed to someone that can manage WordPress options. We might enter something like:
 
