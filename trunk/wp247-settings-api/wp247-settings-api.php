@@ -181,7 +181,8 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function set_head_scripts( $head_scripts )
 		{
-			$this->head_scripts = $head_scripts;
+			if ( is_array( $head_scripts ) ) $this->head_scripts = $head_scripts;
+			else $this->head_scripts = array( $head_scripts );
 
 			return $this;
 		}
@@ -201,7 +202,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		}
 
 		/**
-		 * Returns an empty head_script
+		 * Returns the current head_script
 		 *
 		 * May be (but not required to be) overloaded
 		 *
@@ -209,7 +210,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function get_head_scripts()
 		{
-			return array();
+			return $this->head_scripts;
 		}
 
 		/**
@@ -237,6 +238,18 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		}
 
 		/**
+		 * Returns the current admin_menu
+		 *
+		 * May be (but not required to be) overloaded
+		 *
+		 * @return array admin menu
+		 */
+		function get_settings_admin_menu()
+		{
+			return $this->admin_menu;
+		}
+
+		/**
 		 * Set settings sections
 		 *
 		 * @param array   $sections setting sections array
@@ -258,6 +271,18 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			$this->settings_sections[] = $section;
 
 			return $this;
+		}
+
+		/**
+		 * Returns the current sections
+		 *
+		 * May be (but not required to be) overloaded
+		 *
+		 * @return array section
+		 */
+		function get_settings_sections()
+		{
+			return $this->settings_sections;
 		}
 
 		/**
@@ -286,6 +311,18 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			$this->settings_fields[$section][] = $arg;
 
 			return $this;
+		}
+
+		/**
+		 * Returns the current fields
+		 *
+		 * May be (but not required to be) overloaded
+		 *
+		 * @return array fields
+		 */
+		function get_settings_fields()
+		{
+			return $this->settings_fields;
 		}
 
 		/**
@@ -346,7 +383,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function get_infobar_width()
 		{
-			return 20;
+			return $this->infobar_width;
 		}
 
 		/**
