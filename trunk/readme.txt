@@ -39,6 +39,10 @@ Add unique classes to the body tag for easy styling based on post attributes (po
  - $post->post_type
  - $post->name
  - $post->ID
+ - $user->nicename
+ - $user->id
+ - $archive->slug (e.g. Category slug, Tag slug, etc.)
+ - $archive->id   (e.g. Category id, Tag id, etc.)
 
 This plugin adds classes to the html body tag indicating:
 
