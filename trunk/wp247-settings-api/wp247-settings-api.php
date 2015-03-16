@@ -628,15 +628,18 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function sanitize_options( $options )
 		{
-			foreach( $options as $option_slug => $option_value )
+			if ( is_array( $options ) )
 			{
-				$sanitize_callback = $this->get_sanitize_callback( $option_slug );
-
-				// If callback is set, call it
-				if ( $sanitize_callback )
+				foreach( $options as $option_slug => $option_value )
 				{
-					$options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
-					continue;
+					$sanitize_callback = $this->get_sanitize_callback( $option_slug );
+
+					// If callback is set, call it
+					if ( $sanitize_callback )
+					{
+						$options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
+						continue;
+					}
 				}
 			}
 
