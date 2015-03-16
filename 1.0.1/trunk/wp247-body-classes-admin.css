@@ -1,0 +1,14 @@
+/*
+ * wp247 Body Classes admin settings styles
+ */
+.wp247bc-indent {
+	padding-left: 16px;
+	min-width: 200px;
+	display: inline-block;
+}
+
+.wp247bc-button {
+	height: auto !important;
+	width: 100% !important;
+	white-space: normal !important;
+}
