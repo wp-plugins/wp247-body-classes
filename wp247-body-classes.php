@@ -136,23 +136,22 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 			$is_value = $cd[ 1 ];
 			$is_extras = ( isset( $cd[ 2 ] ) ? $cd[ 2 ] : array() );
 			$is_extra_base = ( isset( $cd[ 3 ] ) ? $cd[ 3 ] : $option );
-			$optkey = str_replace( "-", "_", $option );
 			
 			if ( !is_array( $is_extras ) ) $is_extras = array( $is_extras );
 
 			if ( $is_value )
 			{
-				if ( isset( $options[ $optkey ][ 'is-' . $option ] ) ) $classes[] = 'is-' . $option;
+				if ( isset( $options[ $option ][ 'is-' . $option ] ) ) $classes[] = 'is-' . $option;
 				foreach( $is_extras as $key => $value )
 				{
-					if ( !is_null( $value ) and isset( $options[ $optkey ][ $is_extra_base.'-'.$key ] ) )
+					if ( !is_null( $value ) and isset( $options[ $option ][ $is_extra_base.'-'.$key ] ) )
 					{
 						if ( 'is-' == substr( $value, 0, 3 ) ) $classes[] = $value;
 						else $classes[] = 'is-' . $is_extra_base . '-' . $value;
 					}
 				}
 			}
-			elseif ( isset( $options[ $optkey ][ 'is-not-' . $option ] ) ) $classes[] = 'is-not-' . $option;
+			elseif ( isset( $options[ $option ][ 'is-not-' . $option ] ) ) $classes[] = 'is-not-' . $option;
 		}
 
 		$custom = get_option( 'wp247_body_classes_custom' );
