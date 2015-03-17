@@ -1,7 +1,7 @@
 <?php
 /*
 	Plugin Name: WP247 Body Classes
-	Version: 1.0.2
+	Version: 1.0.3
 	Description: Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various wordpress "is" functions:
 					wp_is_mobile()
 					is_home()

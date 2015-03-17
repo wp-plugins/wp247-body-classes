@@ -102,7 +102,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						),
 					),
 					array(
-						'name' => 'front_page',
+						'name' => 'front-page',
 						'label' => __( 'Front Page', 'wp247-body-classes' ),
 						'intro' => __( '<b>is_front_page()</b><br />This class indicates if the main page is a posts or a Page. It returns TRUE (.is-front-page) when the main blog page is being displayed and the Settings->Reading->Front page displays is set to "Your latest posts", or when is set to "A static page" and the "Front Page" value is the current Page being displayed.', 'wp247-body-classes' ),
 						'type' => 'multicheck',
@@ -154,7 +154,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 				),
 				'wp247_body_classes_user' => array(
 					array(
-						'name' => 'super_admin',
+						'name' => 'super-admin',
 						'label' => __( 'Super Admin', 'wp247-body-classes' ),
 						'intro' => __( '<b>is_super_admin()</b><br/>This class indicates if user is a network (super) admin. It will also check if the user is admin if network mode is disabled.', 'wp247-body-classes' ),
 						'type' => 'multicheck',
