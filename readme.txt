@@ -13,7 +13,6 @@ Add unique classes to the body tag for easy styling based on post attributes (po
 == Description ==
 
 Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions:
-
  - wp_is_mobile()
  - is_home()
  - is_front_page()
