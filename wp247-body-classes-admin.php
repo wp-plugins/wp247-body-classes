@@ -1,7 +1,7 @@
 <?php
 /*
 	Program: WP247 Body Classes Administration Functions
-	Version: 1.0
+	Version: 1.1
 	Author: Wes Cleveland
 	Author URI: http://wp247.net/
 	Uses: weDevs Settings API wrapper class from http://tareq.weDevs.com Tareq's Planet
@@ -31,6 +31,11 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 		function get_settings_sections()
 		{
 			$sections = array(
+				array(
+					'id' => 'wp247_body_classes_mobile',
+					'title' => __( 'Mobile Classes', 'wp247-body-classes' ),
+					'desc' => __( 'Mobile classes are based on the results from the <a href="http://mobiledetect.net/" target="_blank">Mobile_Detect</a> script by Serban Ghita, Nick Ilyin, and Victor Stanciu. This script parses the value passed by the browser in the HTTP_USER_AGENT string. Consequently, mobile detection is more of an art than a science and, unfortunately, is not perfect.<br /><br />Check the Body Classes that you want to be included on your web pages.' /* testing */ /* . '<pre>' . var_export( get_option( 'wp247_body_classes_mobile' ), true ) . '</pre>' /* end testing */, 'wp247-body-classes' )
+				),
 				array(
 					'id' => 'wp247_body_classes_environment',
 					'title' => __( 'Environment Classes', 'wp247-body-classes' ),
@@ -72,6 +77,30 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 		 */
 		function get_settings_fields()
 		{
+			global $wp247_mobile_detect;
+
+			$md_options = array( 'os' => array_keys( $wp247_mobile_detect->getOperatingSystems() )
+								,'browser' => array_keys( $wp247_mobile_detect->getBrowsers() )
+								,'phone' => array_keys( $wp247_mobile_detect->getPhoneDevices() )
+								,'tablet' => array_keys( $wp247_mobile_detect->getTabletDevices() )
+//								,'utility' => array_keys( $wp247_mobile_detect->getUtilities() )
+								);
+			foreach ( $md_options as $key => $vals )
+			{
+				$opt = array();
+				$sufx = $key;
+				$sufxlen = strlen( $sufx );
+				natcasesort( $vals );
+				foreach ( $vals as $val )
+				{
+					$class = strtolower( $val );
+					if ( $sufxlen > 0 and $sufx != substr( $class, $sufxlen * -1 ) ) $class = $class . $sufx;
+					$opt[ 'is-' . $class . '/' . $val ] = '<span class="wp247bc">is-' . $class . '</span><span>mobile_detect->is("'.$val.'")</span>';
+					$opt[ 'is-not-' . $class . '/' . $val ] = '<span class="wp247bc-indent">is-not-' . $class . '</span>';
+				}
+				$md_options[ $key ] = $opt;
+			}
+
 			$user = wp_get_current_user();
 			$cats = get_categories();
 			$cat  = $cats[0];
@@ -80,15 +109,68 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 			$taxs = get_taxonomies();
 			$tax  = $taxs[0];
 			$settings_fields = array(
+				'wp247_body_classes_mobile' => array(
+					array(
+						'name' => 'device',
+						'label' => __( 'Device', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate if the user is visiting from a mobile device, and if so, which type of mobile device.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => array(
+							'is-mobile' => '<span class="wp247bc">.is-mobile</span><span>mobile_detect->isMobile()</span>',
+							'is-not-mobile' => '<span class="wp247bc-indent">.is-not-mobile</span>',
+							'is-phone' => '<span class="wp247bc">.is-phone</span><span>mobile_detect->isMobile() and !mobile_detect->isTablet()</span>',
+							'is-not-phone' => '<span class="wp247bc-indent">.is-not-phone</span>',
+							'is-tablet' => '<span class="wp247bc">.is-tablet</span><span>mobile_detect->isTablet()</span>',
+							'is-not-tablet' => '<span class="wp247bc-indent">.is-not-tablet</span>',
+						),
+					),
+					array(
+						'name' => 'os',
+						'label' => __( 'Operating System', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate the Operating System of the mobile device the user is visiting from.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => $md_options[ 'os' ],
+					),
+					array(
+						'name' => 'browser',
+						'label' => __( 'Browser', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate the browser of the mobile device the user is visiting from.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => $md_options[ 'browser' ],
+					),
+					array(
+						'name' => 'tablet',
+						'label' => __( 'Tablet', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate which type of tablet is the mobile device the user is visiting from.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => $md_options[ 'tablet' ],
+					),
+					array(
+						'name' => 'phone',
+						'label' => __( 'Phone', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate which type of phone is the mobile device the user is visiting from.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => $md_options[ 'phone' ],
+					),
+/*
+					array(
+						'name' => 'util',
+						'label' => __( 'Utility', 'wp247-body-classes' ),
+						'intro' => __( 'These classes indicate which utility functions are available on the mobile device the user is visiting from.', 'wp247-body-classes' ),
+						'type' => 'multicheck',
+						'options' => $md_options[ 'util' ],
+					),
+*/
+				),
 				'wp247_body_classes_environment' => array(
 					array(
-						'name' => 'mobile',
+						'name' => 'wp-mobile',
 						'label' => __( 'Mobile', 'wp247-body-classes' ),
 						'intro' => __( '<b>wp_is_mobile()</b><br />This class indicates if the user is visiting using a mobile device.', 'wp247-body-classes' ),
 						'type' => 'multicheck',
 						'options' => array(
-							'is-mobile' => '.is-mobile',
-							'is-not-mobile' => '.is-not-mobile',
+							'is-wp-mobile' => '.is-wp-mobile',
+							'is-not-wp-mobile' => '.is-not-wp-mobile',
 						),
 					),
 					array(
@@ -102,7 +184,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						),
 					),
 					array(
-						'name' => 'front_page',
+						'name' => 'front-page',
 						'label' => __( 'Front Page', 'wp247-body-classes' ),
 						'intro' => __( '<b>is_front_page()</b><br />This class indicates if the main page is a posts or a Page. It returns TRUE (.is-front-page) when the main blog page is being displayed and the Settings->Reading->Front page displays is set to "Your latest posts", or when is set to "A static page" and the "Front Page" value is the current Page being displayed.', 'wp247-body-classes' ),
 						'type' => 'multicheck',
@@ -154,7 +236,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 				),
 				'wp247_body_classes_user' => array(
 					array(
-						'name' => 'super_admin',
+						'name' => 'super-admin',
 						'label' => __( 'Super Admin', 'wp247-body-classes' ),
 						'intro' => __( '<b>is_super_admin()</b><br/>This class indicates if user is a network (super) admin. It will also check if the user is admin if network mode is disabled.', 'wp247-body-classes' ),
 						'type' => 'multicheck',

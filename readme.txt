@@ -1,14 +1,14 @@
-=== WP247 Body Classes ===
+
 Contributors: wescleveland
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU
 Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions. You can also create your own custom Body Classes.
+Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions and mobiledetect.net's mobile_detect script. You can also create your own custom Body Classes.
 
 == Description ==
 
@@ -43,6 +43,16 @@ Add unique classes to the body tag for easy styling based on post attributes (po
  - $user->id
  - $archive->slug (e.g. Category slug, Tag slug, etc.)
  - $archive->id   (e.g. Category id, Tag id, etc.)
+
+Add classes based on the results from mobiledetect.net's **Mobile_Detect** script. This script parses the value passed by the browser in the HTTP_USER_AGENT string. Consequently, mobile detection is more of an art than a science and, unfortunately, is not perfect. You can check things like:
+
+ - is-mobile
+ - is-tablet
+ - is-phone
+ - Mobile Operating System
+ - Mobile Browser
+ - Type of tablet
+ - Type of phone
 
 This plugin adds classes to the html body tag indicating:
 
@@ -96,14 +106,21 @@ In the WordPress backend, search for the plugin 'wp247 body classes'. Click the 
 
 == Screenshots ==
 
-1. Environment Classes setting selection
-2. User Classes setting selection
-3. Archive Classes setting selection
-4. Post Classes setting selection
-5. Custom Classes setting
-6. Custom CSS setting
+1. Mobile Classes setting selection
+2. Environment Classes setting selection
+3. User Classes setting selection
+4. Archive Classes setting selection
+5. Post Classes setting selection
+6. Custom Classes setting
+7. Custom CSS setting
 
 == Changelog ==
+
+= 1.1 =
+Implement Mobile classes based on mobiledetect.net's **Mobile_Detect** script
+
+= 1.0.1 =
+Fix PHP Error in wp247-settings-api
 
 = 1.0 =
 First release on 2015-March-1
