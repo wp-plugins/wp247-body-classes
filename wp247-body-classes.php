@@ -1,8 +1,8 @@
 <?php
 /*
 	Plugin Name: WP247 Body Classes
-	Version: 1.0.3
-	Description: Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various wordpress "is" functions:
+	Version: 1.1
+	Description: Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various wordpress "is" functions and mobile_detect script:
 					wp_is_mobile()
 					is_home()
 					is_front_page()
@@ -28,7 +28,8 @@
 					$post->post_type
 					$post->name
 					$post->ID
-	Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky
+
+	Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky, is-mobile, is-tablet, is-phone, mobile_detect
 	Author: wp247
 	Author URI: http://wp247.net/
 	Uses: weDevs Settings API wrapper class from http://tareq.weDevs.com Tareq's Planet
@@ -36,6 +37,8 @@
 
 if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 {
+	global $wp247_mobile_detect;
+
 	add_action( 'wp_loaded','wp247_body_classes_do_action_wp_loaded');
 	add_action( 'wp_head', 'wp247_body_classes_do_action_wp_head', 99999 );
 	add_filter( 'body_class', 'wp247_body_classes_do_action_body_class' );
@@ -45,6 +48,10 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 	 */
 	function wp247_body_classes_do_action_wp_loaded()
 	{
+		require_once  dirname( __FILE__ ) . "/mobile-detect/Mobile_Detect.php";
+		global $wp247_mobile_detect;
+		$wp247_mobile_detect = new WP247_Mobile_Detect();
+
 		if ( current_user_can( 'manage_options' ) )
 			require_once dirname( __FILE__ ) . '/wp247-body-classes-admin.php';
 	}
@@ -58,8 +65,10 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 	function wp247_body_classes_do_action_body_class( $classes )
 	{
 		global $post;
+		global $wp247_mobile_detect;
 
 		$option_names = array(
+			'wp247_body_classes_mobile',
 			'wp247_body_classes_environment',
 			'wp247_body_classes_user',
 			'wp247_body_classes_archive',
@@ -72,6 +81,8 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 			if ( is_array( $option ) ) $options = array_merge( $options, $option );
 		}
 
+
+// if ( is_user_logged_in() ) die( "\"</body><pre>" . var_export( get_option( 'wp247_body_classes_environment' ), true ) . "</pre>" );
 		$query = get_queried_object();
 
 		$author_extra	= array( 'slug' => $query->user_nicename, 'id' => $query->ID );
@@ -92,15 +103,18 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 		$user_extra   = array( 'slug' => $user->user_nicename, 'id' => $user->ID );
 
 		$class_driver = array(
-					  array( 'mobile', wp_is_mobile() )
+					// Environment Classes
+					  array( 'wp-mobile', wp_is_mobile() )
 					, array( 'home', is_home() )
 					, array( 'front-page', is_front_page() )
 					, array( 'blog', ( is_front_page() and is_home() ) )
 					, array( 'admin', ( is_admin() or is_super_admin() ) )
-					, array( 'super-admin', is_super_admin() )
 					, array( 'admin-bar-showing', is_admin_bar_showing() )
-					, array( 'user-logged-in', is_user_logged_in(), $user_extra, 'user' )
 					, array( '404', is_404() )
+					// User Classes
+					, array( 'super-admin', is_super_admin() )
+					, array( 'user-logged-in', is_user_logged_in(), $user_extra, 'user' )
+					// Archive Classes
 					, array( 'archive', is_archive() )
 					, array( 'search', is_search() )
 					, array( 'single', is_single() )
@@ -124,12 +138,34 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 		}
 		else $post_type = $post_name = $post_id = '';
 		
+		// Post Classes
 		$post_types = get_post_types();
 		foreach ( $post_types as $pt )
 		{
 			$class_driver[] = array( str_replace( '_', '-', $pt ), $pt == $post_type, array( 'slug' => $post_name, 'id' => $post_id ) );
 		}
 
+		// Mobile Device Class Drivers
+		$mobile_driver_set = array();
+		$mobile_classes = array();
+		foreach ( array( 'device', 'os', 'browser', 'phone', 'tablet' ) as $type )
+		{
+			if ( is_array( $options[ $type ] ) ) $mobile_classes = array_merge( $mobile_classes, $options[ $type ] );
+		}
+		foreach ( $mobile_classes as $class => $test )
+		{
+			$category = preg_replace( '/^is-(not-)?/i', '', $class );
+			if ( !isset( $options[ $category ] ) ) $options[ $category ] = array( $class => $class );
+			else $options[ $category ][ $class ] = $class;
+			if ( !isset( $mobile_driver_set[ $category ] ) )
+			{
+				if ( 'mobile' == $category ) $class_driver[] = array( 'mobile', $wp247_mobile_detect->isMobile() );
+				elseif ( 'tablet' == $category ) $class_driver[] = array( 'tablet', $wp247_mobile_detect->isTablet() );
+				elseif ( 'phone' == $category ) $class_driver[] = array( 'phone', ( $wp247_mobile_detect->isMobile() and !$wp247_mobile_detect->isTablet() ) );
+				else $class_driver[] = array( $category, $wp247_mobile_detect->is( $test ) );
+				$mobile_driver_set[ $category ] = $category;
+			}
+		}
 		foreach ( $class_driver as $cd )
 		{
 			$option = $cd[ 0 ];
@@ -156,6 +192,8 @@ if ( !function_exists( 'wp247_body_classes_do_action_wp_loaded' ) )
 
 		$custom = get_option( 'wp247_body_classes_custom' );
 		if ( isset( $custom[ 'custom-classes' ] ) and !empty( $custom[ 'custom-classes' ] ) ) @eval( $custom[ 'custom-classes' ] );
+
+// if ( is_user_logged_in() ) die( "class=\"".implode(' ',$classes)."\"><pre>options:\n" . var_export( $options, true ) . "</pre><pre>class_driver:\n" . var_export( $class_driver, true ) . "</pre></body>" );
 
 		return $classes;
 	}

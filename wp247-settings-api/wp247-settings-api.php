@@ -450,7 +450,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		}
 
 		/**
-		 * Displays a multicheckbox a settings field
+		 * Displays a multicheckbox settings field
 		 *
 		 * @param array   $args settings field args
 		 */
@@ -461,8 +461,12 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			$html = '';
 			foreach ( $args['options'] as $key => $label )
 			{
+$exp = explode( '/', $key );
+$key = $exp[0];
+$val = isset( $exp[1] ) ? $exp[1] : $key;
 				$checked = isset( $value[$key] ) ? $value[$key] : '0';
-				$html .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
+//				$html .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s"%4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
+				$html .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%4$s"%5$s />', $args['section'], $args['id'], $key, $val, checked( $checked, $val, false ) );
 				$html .= sprintf( '<label for="wpuf-%1$s[%2$s][%4$s]"> %3$s</label><br>', $args['section'], $args['id'], $label, $key );
 			}
 			$html .= sprintf( '<span class="description"> %s</label>', $args['desc'] );
@@ -473,7 +477,7 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		}
 
 		/**
-		 * Displays a multicheckbox a settings field
+		 * Displays a radio settings field
 		 *
 		 * @param array   $args settings field args
 		 */
