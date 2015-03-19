@@ -1,4 +1,4 @@
-
+=== Plugin Name ===
 Contributors: wescleveland
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU
 Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky
@@ -8,7 +8,7 @@ Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add unique classes to the body tag for easy styling based on post attributes (post type, slug, and ID) and various WordPress "is" functions and mobiledetect.net's mobile_detect script. You can also create your own custom Body Classes.
+Add unique classes to the body tag for styling based on various attributes (archive, user, post, mobile) and WordPress "is" functions.
 
 == Description ==
 
