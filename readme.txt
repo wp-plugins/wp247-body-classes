@@ -8,7 +8,7 @@ Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add unique classes to the body tag for styling based on various attributes (archive, user, post, mobile) and WordPress "is" functions.
+Add unique classes to the body tag for easy styling based on various attributes (archive, user, post, mobile) and WordPress "is" functions.
 
 == Description ==
 
