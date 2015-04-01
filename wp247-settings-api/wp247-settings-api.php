@@ -79,12 +79,16 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function do_action_admin_enqueue_scripts()
 		{
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_media();
-			wp_enqueue_script( 'wp-color-picker' );
-			wp_enqueue_style( 'wp247-settings-api-styles', plugins_url( 'wp247-settings-api.css', __FILE__ ) );
-			wp_enqueue_script( 'wp247-settings-api-styles', plugins_url( 'wp247-settings-api.js', __FILE__ ), array( 'jquery' ) );
-			$this->enqueue_scripts();
+			if ( empty( $this->settings_admin_menu ) ) $this->set_admin_menu( $this->get_settings_admin_menu() );
+			if ( $_GET[ 'page' ] == $this->settings_admin_menu[ 'menu_slug' ] )
+			{
+				wp_enqueue_style( 'wp-color-picker' );
+				wp_enqueue_media();
+				wp_enqueue_script( 'wp-color-picker' );
+				wp_enqueue_style( 'wp247-settings-api-styles', plugins_url( 'wp247-settings-api.css', __FILE__ ) );
+				wp_enqueue_script( 'wp247-settings-api-styles', plugins_url( 'wp247-settings-api.js', __FILE__ ), array( 'jquery' ) );
+				$this->enqueue_scripts();
+			}
 		}
 
 		/**
