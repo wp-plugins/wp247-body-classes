@@ -11,9 +11,9 @@ jQuery( document ).ready( function($)
 	var active_tab = '';
 	if ( typeof( localStorage ) != 'undefined' )
 	{
-		active_tab = localStorage.getItem( 'active_tab' );
+		active_tab = localStorage.getItem( 'wp247sapi_active_tab' );
 	}
-	if ( active_tab != '' && $( active_tab ).length )
+	if ( active_tab != '' && $( active_tab ).length > 0 )
 	{
 		$( active_tab ).fadeIn( 100 );
 	}
@@ -50,7 +50,7 @@ jQuery( document ).ready( function($)
 		var active_form = $( this ).attr( 'href' );
 		if ( typeof( localStorage)  != 'undefined' )
 		{
-			localStorage.setItem( 'active_tab', $( this ).attr( 'href' ) );
+			localStorage.setItem( 'wp247sapi_active_tab', $( this ).attr( 'href' ) );
 		}
 		$( '.wp247sapi_form' ).hide();
 		$( active_form ).fadeIn( 100 );

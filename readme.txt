@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky, is-mobile, is-tablet, is-phone, mobile_detect
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,6 +115,9 @@ In the WordPress backend, search for the plugin 'wp247 body classes'. Click the 
 7. Custom CSS setting
 
 == Changelog ==
+
+= 1.1.1 =
+Correct potential 'active_tab' storage conflict in Admin Settings API
 
 = 1.1 =
 Implement Mobile classes based on mobiledetect.net's **Mobile_Detect** script
