@@ -486,6 +486,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 , 'Enjoy this plugin?' => '
 <p>If you find this plugin useful, would you consider making a donation to one or more of my favorite causes?</p>
 <p><a class="button button-primary wp247bc-button" href="http://www.ijm.org/make-gift/" target="_blank">Help rescue the oppressed</a></p>
+<p><a class="button button-primary wp247bc-button" href="http://www.compassion.com/donate.htm" target="_blank">Show compassion on an impoverished child</a></p>
 <p><a class="button button-primary wp247bc-button" href="http://www.charitywater.org/donate/" target="_blank">Give someone clean and safe drinking water</a></p>
 <p><a class="button button-primary wp247bc-button" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU" target="_blank">Buy me a coffee :)</a></p>
 ' );
