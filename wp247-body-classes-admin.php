@@ -1,7 +1,7 @@
 <?php
 /*
 	Program: WP247 Body Classes Administration Functions
-	Version: 1.1
+	Version: 1.1.2
 	Author: Wes Cleveland
 	Author URI: http://wp247.net/
 	Uses: weDevs Settings API wrapper class from http://tareq.weDevs.com Tareq's Planet
@@ -11,7 +11,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 {
 	require_once dirname( __FILE__ ) . '/wp247-settings-api/wp247-settings-api.php';
 
-	class WP247_body_classes_settings extends WP247_settings_API
+	class WP247_body_classes_settings extends \wp247sapi\WP247_settings_API
 	{
 
 		function get_settings_admin_menu()
@@ -95,8 +95,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 				{
 					$class = strtolower( $val );
 					if ( $sufxlen > 0 and $sufx != substr( $class, $sufxlen * -1 ) ) $class = $class . $sufx;
-					$opt[ 'is-' . $class . '/' . $val ] = '<span class="wp247bc">is-' . $class . '</span><span>mobile_detect->is("'.$val.'")</span>';
-					$opt[ 'is-not-' . $class . '/' . $val ] = '<span class="wp247bc-indent">is-not-' . $class . '</span>';
+					$opt[ 'is-' . $class . '/' . $val ] = '<span class="wp247sapi">is-' . $class . '</span><span>mobile_detect->is("'.$val.'")</span>';
+					$opt[ 'is-not-' . $class . '/' . $val ] = '<span class="wp247sapi-indent">is-not-' . $class . '</span>';
 				}
 				$md_options[ $key ] = $opt;
 			}
@@ -116,12 +116,12 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'intro' => __( 'These classes indicate if the user is visiting from a mobile device, and if so, which type of mobile device.', 'wp247-body-classes' ),
 						'type' => 'multicheck',
 						'options' => array(
-							'is-mobile' => '<span class="wp247bc">.is-mobile</span><span>mobile_detect->isMobile()</span>',
-							'is-not-mobile' => '<span class="wp247bc-indent">.is-not-mobile</span>',
-							'is-phone' => '<span class="wp247bc">.is-phone</span><span>mobile_detect->isMobile() and !mobile_detect->isTablet()</span>',
-							'is-not-phone' => '<span class="wp247bc-indent">.is-not-phone</span>',
-							'is-tablet' => '<span class="wp247bc">.is-tablet</span><span>mobile_detect->isTablet()</span>',
-							'is-not-tablet' => '<span class="wp247bc-indent">.is-not-tablet</span>',
+							'is-mobile' => '<span class="wp247sapi">.is-mobile</span><span>mobile_detect->isMobile()</span>',
+							'is-not-mobile' => '<span class="wp247sapi-indent">.is-not-mobile</span>',
+							'is-phone' => '<span class="wp247sapi">.is-phone</span><span>mobile_detect->isMobile() and !mobile_detect->isTablet()</span>',
+							'is-not-phone' => '<span class="wp247sapi-indent">.is-not-phone</span>',
+							'is-tablet' => '<span class="wp247sapi">.is-tablet</span><span>mobile_detect->isTablet()</span>',
+							'is-not-tablet' => '<span class="wp247sapi-indent">.is-not-tablet</span>',
 						),
 					),
 					array(
@@ -252,8 +252,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-user-logged-in' => '.is-user-logged-in',
-							'user-slug' => '<span class="wp247bc-indent">.is-user-(nicename)</span><span>(example: .is-user-'.$user->user_nicename.')</span>',
-							'user-id' => '<span class="wp247bc-indent">.is-user-(id)</span><span>(example: .is-user-'.$user->ID.')</span>',
+							'user-slug' => '<span class="wp247sapi-indent">.is-user-(nicename)</span><span>(example: .is-user-'.$user->user_nicename.')</span>',
+							'user-id' => '<span class="wp247sapi-indent">.is-user-(id)</span><span>(example: .is-user-'.$user->ID.')</span>',
 							'is-not-user-logged-in' => '.is-not-user-logged-in',
 						),
 					),
@@ -286,8 +286,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-author' => 'is-author',
-							'author-slug' => '<span class="wp247bc-indent">.is-author-(nicename)</span><span>(example: .is-author-'.$user->user_nicename.')</span>',
-							'author-id' => '<span class="wp247bc-indent">.is-author-(id)</span><span>(example: .is-author-'.$user->ID.')</span>',
+							'author-slug' => '<span class="wp247sapi-indent">.is-author-(nicename)</span><span>(example: .is-author-'.$user->user_nicename.')</span>',
+							'author-id' => '<span class="wp247sapi-indent">.is-author-(id)</span><span>(example: .is-author-'.$user->ID.')</span>',
 							'is-not-author' => 'is-not-author',
 						),
 					),
@@ -298,8 +298,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-category' => 'is-category',
-							'category-slug' => '<span class="wp247bc-indent">.is-category-(slug)</span><span>(example: .is-category-'.$cat->slug.')</span>',
-							'category-id' => '<span class="wp247bc-indent">.is-category-(id)</span><span>(example: .is-category-'.$cat->cat_ID.')</span>',
+							'category-slug' => '<span class="wp247sapi-indent">.is-category-(slug)</span><span>(example: .is-category-'.$cat->slug.')</span>',
+							'category-id' => '<span class="wp247sapi-indent">.is-category-(id)</span><span>(example: .is-category-'.$cat->cat_ID.')</span>',
 							'is-not-category' => 'is-not-category',
 						),
 					),
@@ -310,8 +310,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-tag' => 'is-tag',
-							'tag-slug' => '<span class="wp247bc-indent">.is-tag-(slug)</span><span>(example: .is-tag-'.$tag->slug.')</span>',
-							'tag-id' => '<span class="wp247bc-indent">.is-tag-(id)</span><span>(example: .is-tag-'.$tag->term_id.')</span>',
+							'tag-slug' => '<span class="wp247sapi-indent">.is-tag-(slug)</span><span>(example: .is-tag-'.$tag->slug.')</span>',
+							'tag-id' => '<span class="wp247sapi-indent">.is-tag-(id)</span><span>(example: .is-tag-'.$tag->term_id.')</span>',
 							'is-not-tag' => 'is-not-tag',
 						),
 					),
@@ -322,8 +322,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-tax' => 'is-tax',
-							'tax-slug' => '<span class="wp247bc-indent">.is-tax-(slug)</span><span>(example: .is-tax-'.$tag->slug.')</span>',
-							'tax-id' => '<span class="wp247bc-indent">.is-tax-(id)</span><span>(example: .is-tax-'.$tag->term_id.')</span>',
+							'tax-slug' => '<span class="wp247sapi-indent">.is-tax-(slug)</span><span>(example: .is-tax-'.$tag->slug.')</span>',
+							'tax-id' => '<span class="wp247sapi-indent">.is-tax-(id)</span><span>(example: .is-tax-'.$tag->term_id.')</span>',
 							'is-not-tax' => 'is-not-tax',
 						),
 					),
@@ -334,11 +334,11 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-date' => 'is-date',
-							'date-year-month-day' => '<span class="wp247bc-indent">.is-date-(year-month-day)</span><span>(example: .is-date-'.date('Y-m-d').')</span>',
-							'date-year-month' => '<span class="wp247bc-indent">.is-date-(year-month)</span><span>(example: .is-date-'.date('Y-m').')</span>',
-							'date-year' => '<span class="wp247bc-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
-							'date-month' => '<span class="wp247bc-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
-							'date-day' => '<span class="wp247bc-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
+							'date-year-month-day' => '<span class="wp247sapi-indent">.is-date-(year-month-day)</span><span>(example: .is-date-'.date('Y-m-d').')</span>',
+							'date-year-month' => '<span class="wp247sapi-indent">.is-date-(year-month)</span><span>(example: .is-date-'.date('Y-m').')</span>',
+							'date-year' => '<span class="wp247sapi-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
+							'date-month' => '<span class="wp247sapi-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
+							'date-day' => '<span class="wp247sapi-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
 							'is-not-date' => 'is-not-date',
 						),
 					),
@@ -349,7 +349,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-year' => 'is-year',
-							'year-year' => '<span class="wp247bc-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
+							'year-year' => '<span class="wp247sapi-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
 							'is-not-year' => 'is-not-year',
 						),
 					),
@@ -360,7 +360,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-month' => 'is-month',
-							'month-month' => '<span class="wp247bc-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
+							'month-month' => '<span class="wp247sapi-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
 							'is-not-month' => 'is-not-month',
 						),
 					),
@@ -371,7 +371,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-day' => 'is-day',
-							'day-day' => '<span class="wp247bc-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
+							'day-day' => '<span class="wp247sapi-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
 							'is-not-day' => 'is-not-day',
 						),
 					),
@@ -382,13 +382,13 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 						'type' => 'multicheck',
 						'options' => array(
 							'is-time' => 'is-time',
-							'time-year-month-day-time' => '<span class="wp247bc-indent">.is-time-(date-time)</span><span>(example: .is-time-'.date('Y-m-d-G-i-s').')</span>',
-							'time-year-month-day' => '<span class="wp247bc-indent">.is-date-(year-month-day)</span><span>(example: .is-date-'.date('Y-m-d').')</span>',
-							'time-year-month' => '<span class="wp247bc-indent">.is-date-(year-month)</span><span>(example: .is-date-'.date('Y-m').')</span>',
-							'time-year' => '<span class="wp247bc-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
-							'time-month' => '<span class="wp247bc-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
-							'time-day' => '<span class="wp247bc-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
-							'time-time' => '<span class="wp247bc-indent">.is-time-(time)</span><span>(example: .is-time-'.date('G-i-s').')</span>',
+							'time-year-month-day-time' => '<span class="wp247sapi-indent">.is-time-(date-time)</span><span>(example: .is-time-'.date('Y-m-d-G-i-s').')</span>',
+							'time-year-month-day' => '<span class="wp247sapi-indent">.is-date-(year-month-day)</span><span>(example: .is-date-'.date('Y-m-d').')</span>',
+							'time-year-month' => '<span class="wp247sapi-indent">.is-date-(year-month)</span><span>(example: .is-date-'.date('Y-m').')</span>',
+							'time-year' => '<span class="wp247sapi-indent">.is-year-(year)</span><span>(example: .is-year-'.date('Y').')</span>',
+							'time-month' => '<span class="wp247sapi-indent">.is-month-(month)</span><span>(example: .is-month-'.date('m').')</span>',
+							'time-day' => '<span class="wp247sapi-indent">.is-day-(day)</span><span>(example: .is-day-'.date('d').')</span>',
+							'time-time' => '<span class="wp247sapi-indent">.is-time-(time)</span><span>(example: .is-time-'.date('G-i-s').')</span>',
 							'is-not-time' => 'is-not-time',
 						),
 					),
@@ -453,8 +453,8 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 					$xintro = ' If a '.$ucwpt.' post type is being displayed, additional classes that indicate which <b>'.$ucwpt.'</b> post is being displayed may optionally be included.';
 					$opts = array(
 									'is-'.$pt => '.is-'.$pt,
-									$cleanpt.'-slug' => '<span class="wp247bc-indent">.is-'.$cleanpt.'-(slug)</span><span>(example: .is-'.$cleanpt.'-sample-'.$cleanpt.')</span>',
-									$cleanpt.'-id' => '<span class="wp247bc-indent">.is-'.$cleanpt.'-(id)</span><span>(example: .is-'.$cleanpt.'-1)</span>',
+									$cleanpt.'-slug' => '<span class="wp247sapi-indent">.is-'.$cleanpt.'-(slug)</span><span>(example: .is-'.$cleanpt.'-sample-'.$cleanpt.')</span>',
+									$cleanpt.'-id' => '<span class="wp247sapi-indent">.is-'.$cleanpt.'-(id)</span><span>(example: .is-'.$cleanpt.'-1)</span>',
 									'is-not-'.$cleanpt => '.is-not-'.$cleanpt,
 								);
 				}
@@ -485,10 +485,10 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 </ul>'
 , 'Enjoy this plugin?' => '
 <p>If you find this plugin useful, would you consider making a donation to one or more of my favorite causes?</p>
-<p><a class="button button-primary wp247bc-button" href="http://www.ijm.org/make-gift/" target="_blank">Help rescue the oppressed</a></p>
-<p><a class="button button-primary wp247bc-button" href="http://www.compassion.com/donate.htm" target="_blank">Show compassion on an impoverished child</a></p>
-<p><a class="button button-primary wp247bc-button" href="http://www.charitywater.org/donate/" target="_blank">Give someone clean and safe drinking water</a></p>
-<p><a class="button button-primary wp247bc-button" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU" target="_blank">Buy me a coffee :)</a></p>
+<p><a class="wp247sapi-button button-primary" href="http://www.ijm.org/make-gift/" target="_blank">Help rescue the oppressed</a></p>
+<p><a class="wp247sapi-button button-primary" href="http://www.compassion.com/donate.htm" target="_blank">Show compassion on an impoverished child</a></p>
+<p><a class="wp247sapi-button button-primary" href="http://www.charitywater.org/donate/" target="_blank">Give someone clean and safe drinking water</a></p>
+<p><a class="wp247sapi-button button-primary" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RM26LBV2K6NAU" target="_blank">Buy me a coffee :)</a></p>
 ' );
 		}
 
@@ -507,7 +507,7 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 		 */
 		function enqueue_scripts()
 		{
-			wp_enqueue_style( 'wp247-body-classes-admin-styles', plugins_url( 'wp247-body-classes-admin.css', __FILE__ ) );
+//			wp_enqueue_style( 'wp247-body-classes-admin-styles', plugins_url( 'wp247-body-classes-admin.css', __FILE__ ) );
 		}
 
 		/**

@@ -4,14 +4,15 @@
 jQuery( document ).ready( function($)
 {
 	//Initiate Color Picker
-	$( '.wp-color-picker-field' ).wpColorPicker();
+	$( '.wp247sapi-color-picker-field' ).wpColorPicker();
 
 	// Switches option sections
-	$( '.wp247sapi_form' ).hide();
+	$( '.wp247sapi-form' ).hide();
+	var active_tab_var = wp247sapi_plugin_slug + '_active_tab';
 	var active_tab = '';
 	if ( typeof( localStorage ) != 'undefined' )
 	{
-		active_tab = localStorage.getItem( 'wp247sapi_active_tab' );
+		active_tab = localStorage.getItem( active_tab_var );
 	}
 	if ( active_tab != '' && $( active_tab ).length > 0 )
 	{
@@ -19,9 +20,9 @@ jQuery( document ).ready( function($)
 	}
 	else
 	{
-		$( '.wp247sapi_form:first' ).fadeIn( 100 );
+		$( '.wp247sapi-form:first' ).fadeIn( 100 );
 	}
-	$( '.wp247sapi_form .collapsed' ).each(function()
+	$( '.wp247sapi-form .collapsed' ).each(function()
 	{
 		$(this).find( 'input:checked' ).parent().parent().parent().nextAll().each(
 		function()
@@ -35,9 +36,9 @@ jQuery( document ).ready( function($)
 		});
 	});
 
-	if ( active_tab != '' && $( active_tab + '-tab' ).length )
+	if ( active_tab != '' && $( active_tab + '_tab' ).length > 0 )
 	{
-		$( active_tab + '-tab' ).addClass( 'nav-tab-active' );
+		$( active_tab + '_tab' ).addClass( 'nav-tab-active' );
 	}
 	else
 	{
@@ -50,15 +51,15 @@ jQuery( document ).ready( function($)
 		var active_form = $( this ).attr( 'href' );
 		if ( typeof( localStorage)  != 'undefined' )
 		{
-			localStorage.setItem( 'wp247sapi_active_tab', $( this ).attr( 'href' ) );
+			localStorage.setItem( active_tab_var, $( this ).attr( 'href' ) );
 		}
-		$( '.wp247sapi_form' ).hide();
+		$( '.wp247sapi-form' ).hide();
 		$( active_form ).fadeIn( 100 );
 		evt.preventDefault();
 	} );
 
 	var file_frame = null;
-	$( '.wpsa-browse' ).on( 'click', function ( event ) {
+	$( '.wp247sapi-browse' ).on( 'click', function ( event ) {
 		event.preventDefault();
 
 		var self = $( this );
@@ -82,7 +83,7 @@ jQuery( document ).ready( function($)
 		file_frame.on( 'select', function () {
 			attachment = file_frame.state().get( 'selection' ).first().toJSON();
 
-			self.prev( '.wpsa-url' ).val( attachment.url );
+			self.prev( '.wp247sapi-url' ).val( attachment.url );
 		} );
 
 		// Finally, open the modal

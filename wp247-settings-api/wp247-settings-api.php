@@ -2,15 +2,23 @@
 /**
  * wp247 Settings API wrapper class
  *
- * @version 1.0
+ * @version 1.1
  *
  */
+namespace wp247sapi;
 
-if ( !class_exists( 'WP247_Settings_API' ) )
+if ( !class_exists( '\wp247sapi\WP247_Settings_API' ) )
 {
 
 	class WP247_Settings_API
 	{
+		/**
+		 * settings Menu array
+		 *
+		 * @var array
+		 */
+		static $version = '1.1';
+
 		/**
 		 * settings Menu array
 		 *
@@ -66,6 +74,13 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 		 */
 		function do_action_admin_head()
 		{
+			if ( empty( $this->settings_admin_menu ) ) $this->set_admin_menu( $this->get_settings_admin_menu() );
+			echo "
+<script type='text/javascript'>
+	var wp247sapi_plugin_name = '" . $this->settings_admin_menu[ 'page_title' ] . "'; 
+	var wp247sapi_plugin_slug = '" . $this->settings_admin_menu[ 'menu_slug' ] . "'; 
+</script>
+";
 			$this->set_head_scripts( $this->get_head_scripts() );
 			if ( !empty( $this->head_scripts ) )
 			{
@@ -109,7 +124,19 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			if ( empty( $this->settings_admin_menu ) ) $this->set_admin_menu( $this->get_settings_admin_menu() );
 			extract( $this->settings_admin_menu );
 			if ( !isset( $capability ) ) $capability = 'manage_options';
-			add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, 'show_settings_page' ) );
+			if ( !isset( $parent_slug ) or empty( $parent_slug ) ) $parent_slug = 'options-general';
+			$parent_slug = strtolower( $parent_slug );
+			if ( '.php' != substr( $parent_slug, -3, 4 ) ) $parent_slug .= '.php';
+			add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array( $this, 'show_settings_page' ) );
+/*
+			if ( isset( $parent_slug ) and !empty( $parent_slug ) )
+			{
+				$parent_slug = strtolower( $parent_slug );
+				if ( '.php' != substr( $parent_slug, -4, 4 ) ) $parent_slug .= '.php';
+				add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array( $this, 'show_settings_page' ) );
+			}
+			else add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, 'show_settings_page' ) );
+*/
 		}
 
 		/**
@@ -126,9 +153,12 @@ if ( !class_exists( 'WP247_Settings_API' ) )
 			if ( empty( $this->settings_sections ) ) $this->set_sections( $this->get_settings_sections() );
 			foreach ( $this->settings_sections as $section )
 			{
-				if ( false == get_option( $section['id'] ) )
+				if ( !isset( $section['save'] ) or 'no' != $section['save'] )
 				{
-					add_option( $section['id'] );
+					if ( false == get_option( $section['id'] ) )
+					{
+						add_option( $section['id'] );
+					}
 				}
 
 				if ( isset($section['desc']) && !empty($section['desc']) )
@@ -585,8 +615,8 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 			$size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$id = $args['section']  . '[' . $args['id'] . ']';
 
-			$html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
-			$html .= '<input type="button" class="button wpsa-browse" value="'.__( 'Browse' ).'" />';
+			$html  = sprintf( '<input type="text" class="%1$s-text wp247sapi-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
+			$html .= '<input type="button" class="button wp247sapi-browse" value="'.__( 'Browse' ).'" />';
 
 			$html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
 
@@ -623,7 +653,7 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 			$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 			$size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-			$html = sprintf( '<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std'] );
+			$html = sprintf( '<input type="text" class="%1$s-text wp247sapi-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std'] );
 			$html .= sprintf( '<span class="description" style="display:block;"> %s</span>', $args['desc'] );
 
 			if ( !empty( $args['intro'] ) ) echo sprintf( '<span class="description">%s</span><br />', $args['intro'] );
@@ -645,7 +675,7 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 					// If callback is set, call it
 					if ( $sanitize_callback )
 					{
-						$options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
+						$options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value, $option_slug );
 						continue;
 					}
 				}
@@ -707,11 +737,13 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 		 */
 		function show_navigation()
 		{
+			if ( count( $this->settings_sections ) <= 1 ) return;
+
 			$html = '<h2 class="nav-tab-wrapper">';
 
 			foreach ( $this->settings_sections as $tab )
 			{
-				$html .= sprintf( '<a href="#%1$s" class="nav-tab" id="%1$s-tab">%2$s</a>', $tab['id'], $tab['title'] );
+				$html .= sprintf( '<a href="#%1$s" class="nav-tab" id="%1$s_tab">%2$s</a>', $tab['id'], $tab['title'] );
 			}
 
 			$html .= '</h2>';
@@ -730,7 +762,7 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 			<div class="metabox-holder">
 				<div class="postbox">
 					<?php foreach ( $this->settings_sections as $form ) { ?>
-						<div id="<?php echo $form['id']; ?>" class="wp247sapi_form">
+						<div id="<?php echo $form['id']; ?>" class="wp247sapi-form">
 							<form method="post" action="options.php">
 
 								<?php do_action( 'wp247sapi_form_top_' . $form['id'], $form ); ?>
@@ -738,9 +770,11 @@ $val = isset( $exp[1] ) ? $exp[1] : $key;
 								<?php do_settings_sections( $form['id'] ); ?>
 								<?php do_action( 'wp247sapi_form_bottom_' . $form['id'], $form ); ?>
 
+<?php if ( !isset( $form['save'] ) or 'no' != $form['save'] ) : ?>
 								<div style="padding-left: 10px">
 									<?php submit_button(); ?>
 								</div>
+<?php endif; ?>
 							</form>
 						</div>
 					<?php } ?>
