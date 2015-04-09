@@ -102,7 +102,14 @@ body.is-mobile h1 {
 
 == Installation ==
 
-In the WordPress backend, search for the plugin 'wp247 body classes'. Click the "Install" button and then click on "Activate". That's it. You're now ready to customize your viewer's browsing experience.
+In the WordPress backend:
+
+- Go to Plugins->Add New
+- Search for the plugin 'wp247 Body Classes'
+- Click the "Install" button
+- Click on "Activate"
+
+That's it. You're now ready to customize your viewer's browsing experience.
 
 == Screenshots ==
 
