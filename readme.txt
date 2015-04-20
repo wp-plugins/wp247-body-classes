@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mobile, post type, body, class, custom CSS, CSS, custom Body Classes, wp_is_mobile, is_home, is_front_page, is_blog, is_admin, is_admin_bar_showing, is_404, is_super_admin, is_user_logged_in, is_search, is_archive, is_author, is_category, is_tag, is_tax, is_date, is_year, is_month, is_day, is_time, is_single, is_sticky, is-mobile, is-tablet, is-phone, mobile_detect
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,9 @@ That's it. You're now ready to customize your viewer's browsing experience.
 7. Custom CSS setting
 
 == Changelog ==
+
+= 1.1.3 =
+Remove namespace use in WP247 Settings API to due errors
 
 = 1.1.2 =
 Make all admin classes unique to WP247 in order to avoid conflict in Admin Settings API

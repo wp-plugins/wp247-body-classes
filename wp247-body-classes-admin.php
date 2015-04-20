@@ -1,7 +1,7 @@
 <?php
 /*
 	Program: WP247 Body Classes Administration Functions
-	Version: 1.1.2
+	Version: 1.1.3
 	Author: Wes Cleveland
 	Author URI: http://wp247.net/
 	Uses: weDevs Settings API wrapper class from http://tareq.weDevs.com Tareq's Planet
@@ -11,7 +11,10 @@ if ( !class_exists( 'WP247_body_class_settings' ) )
 {
 	require_once dirname( __FILE__ ) . '/wp247-settings-api/wp247-settings-api.php';
 
+/* Skip namespace usage due to errors
 	class WP247_body_classes_settings extends \wp247sapi\WP247_settings_API
+*/
+	class WP247_body_classes_settings extends WP247_settings_API
 	{
 
 		function get_settings_admin_menu()
